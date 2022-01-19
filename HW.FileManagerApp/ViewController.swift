@@ -10,15 +10,8 @@ import AVFoundation
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//
-//        let userDefaults = UserDefaults.standard
-//        userDefaults.set(0, forKey: "ImageSaving")
-//    }
-    
     private let reuseID = "cell"
-    let fileManager = FileManager.default
+    private let fileManager = FileManager.default
     private var contentArray: [URL] = []
     private let tableView = UITableView()
     
@@ -36,26 +29,29 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            let documentsUrl = try! fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-            if let data = editedImage.jpegData(compressionQuality: 1.0) {
-//                do {
-//                    try data.write(to: imagePath)
-                let imageStoragePath = documentsUrl.appendingPathComponent("PickedEditedImage\(UserDefaults.standard.integer(forKey:"ImageSaving")).jpg")
-                fileManager.createFile(atPath: imageStoragePath.path , contents: data, attributes: nil)
-                UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "ImageSaving") + 1, forKey: "ImageSaving")
-                print(UserDefaults.standard.integer(forKey: "ImageSaving"))
-                let content = try! fileManager.contentsOfDirectory(at: documentsUrl, includingPropertiesForKeys: nil, options: [])
-                self.contentArray = content
-//                } catch {
-//                    print(error.localizedDescription)
-//                }
+            do {
+                let documentsUrl = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+                if let data = editedImage.jpegData(compressionQuality: 1.0) {
+                    let imageStoragePath = documentsUrl.appendingPathComponent("PickedEditedImage\(UserDefaults.standard.integer(forKey:"ImageSaving")).jpg")
+                    fileManager.createFile(atPath: imageStoragePath.path , contents: data, attributes: nil)
+                    UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "ImageSaving") + 1, forKey: "ImageSaving")
+                    print(UserDefaults.standard.integer(forKey: "ImageSaving"))
+                    do {
+                        let content = try fileManager.contentsOfDirectory(at: documentsUrl, includingPropertiesForKeys: nil, options: [])
+                        self.contentArray = content
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+                }
+            } catch {
+                print(error.localizedDescription)
             }
         }
         self.dismiss(animated: true) {
             self.tableView.reloadData()
         }
     }
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(tableView)
@@ -63,17 +59,21 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseID)
         
-        let documentsUrl = try! fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-        let content = try! fileManager.contentsOfDirectory(at: documentsUrl, includingPropertiesForKeys: nil, options: [])
-        self.contentArray = content
-        print("Images saved in total: \(UserDefaults.standard.integer(forKey: "ImageSaving"))")
-        print("Content: \(content)")
+        do {
+        let documentsUrl = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+        let content = try fileManager.contentsOfDirectory(at: documentsUrl, includingPropertiesForKeys: nil, options: [])
+            self.contentArray = content
+            print("Images saved in total: \(UserDefaults.standard.integer(forKey: "ImageSaving"))")
+            print("Content: \(content)")
+        } catch {
+            print(error.localizedDescription)
+        }
         
         let navBar = UINavigationBar(frame: CGRect(x: 0, y: 40, width: view.frame.size.width, height: 44))
         view.addSubview(navBar)
         let navItem = UINavigationItem(title: "Добавить фотографию")
         navItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: #selector(addImage))
-
+        
         navBar.setItems([navItem], animated: false)
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -96,11 +96,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         if editingStyle == .delete {
             do {
                 try fileManager.removeItem(at: contentArray[indexPath.row])
+                self.contentArray.remove(at: indexPath.row)
+                self.tableView.deleteRows(at: [indexPath], with: .automatic)
             } catch {
                 print(error.localizedDescription)
             }
-            self.contentArray.remove(at: indexPath.row)
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
     

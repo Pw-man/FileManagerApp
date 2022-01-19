@@ -13,6 +13,7 @@
 		3002819F279206FC00EC7A5D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3002819D279206FC00EC7A5D /* Main.storyboard */; };
 		300281A1279206FF00EC7A5D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 300281A0279206FF00EC7A5D /* Assets.xcassets */; };
 		300281A4279206FF00EC7A5D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 300281A2279206FF00EC7A5D /* LaunchScreen.storyboard */; };
+		301DFB5C27984A8D0016E2ED /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301DFB5B27984A8D0016E2ED /* AuthorizationViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		300281A0279206FF00EC7A5D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		300281A3279206FF00EC7A5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		300281A5279206FF00EC7A5D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		301DFB5B27984A8D0016E2ED /* AuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 			children = (
 				30028197279206FC00EC7A5D /* AppDelegate.swift */,
 				30028199279206FC00EC7A5D /* SceneDelegate.swift */,
+				301DFB5B27984A8D0016E2ED /* AuthorizationViewController.swift */,
 				3002819B279206FC00EC7A5D /* ViewController.swift */,
 				3002819D279206FC00EC7A5D /* Main.storyboard */,
 				300281A0279206FF00EC7A5D /* Assets.xcassets */,
@@ -138,6 +141,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				301DFB5C27984A8D0016E2ED /* AuthorizationViewController.swift in Sources */,
 				3002819C279206FC00EC7A5D /* ViewController.swift in Sources */,
 				30028198279206FC00EC7A5D /* AppDelegate.swift in Sources */,
 				3002819A279206FC00EC7A5D /* SceneDelegate.swift in Sources */,
