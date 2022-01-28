@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,6 +16,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         UserDefaults.standard.set(true, forKey: "sortingFlag")
+        
+        var alreadyLaunched: Bool!
+        alreadyLaunched = UserDefaults.standard.bool(forKey: "alreadyLaunched")
+    
+        
+        if alreadyLaunched {
+            alreadyLaunched = true
+        } else {
+            do {
+                let localRealm = try Realm()
+                do {
+                    try localRealm.write({
+                        localRealm.add(user)
+                    })
+                    UserDefaults.standard.set(true, forKey: "alreadyLaunched")
+                } catch {
+                    print(error.localizedDescription)
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
         return true
     }
 

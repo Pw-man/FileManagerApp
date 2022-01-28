@@ -52,6 +52,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             sortImages?()
             print("sorted")
         } else if indexPath.row == 1 {
+            UserDefaults.standard.set(false, forKey: "authorized")
             let changePassVC = ChangePasswordViewController()
             self.present(changePassVC, animated: true, completion: nil)
         }

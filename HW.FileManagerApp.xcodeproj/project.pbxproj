@@ -19,6 +19,7 @@
 		301DFB62279C2E540016E2ED /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301DFB61279C2E540016E2ED /* SettingsViewController.swift */; };
 		301DFB64279C774D0016E2ED /* ConfirmPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301DFB63279C774D0016E2ED /* ConfirmPasswordViewController.swift */; };
 		301DFB66279C8A3A0016E2ED /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301DFB65279C8A3A0016E2ED /* ChangePasswordViewController.swift */; };
+		3077E0B027A0931A00181DAD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3077E0AF27A0931A00181DAD /* Constants.swift */; };
 		655CCAC6893E2596B56C972B /* Pods_HW_FileManagerApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5AB39ACD35F4FF925FB4657 /* Pods_HW_FileManagerApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +38,7 @@
 		301DFB61279C2E540016E2ED /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		301DFB63279C774D0016E2ED /* ConfirmPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPasswordViewController.swift; sourceTree = "<group>"; };
 		301DFB65279C8A3A0016E2ED /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
+		3077E0AF27A0931A00181DAD /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5892C3FA0591FD2BE816828B /* Pods-HW.FileManagerApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HW.FileManagerApp.debug.xcconfig"; path = "Target Support Files/Pods-HW.FileManagerApp/Pods-HW.FileManagerApp.debug.xcconfig"; sourceTree = "<group>"; };
 		987A66C6A0B64978A9DAEF54 /* Pods-HW.FileManagerApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HW.FileManagerApp.release.xcconfig"; path = "Target Support Files/Pods-HW.FileManagerApp/Pods-HW.FileManagerApp.release.xcconfig"; sourceTree = "<group>"; };
 		C5AB39ACD35F4FF925FB4657 /* Pods_HW_FileManagerApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HW_FileManagerApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,6 +100,7 @@
 				301DFB63279C774D0016E2ED /* ConfirmPasswordViewController.swift */,
 				301DFB65279C8A3A0016E2ED /* ChangePasswordViewController.swift */,
 				301DFB5D279877060016E2ED /* LoginView.swift */,
+				3077E0AF27A0931A00181DAD /* Constants.swift */,
 				3002819B279206FC00EC7A5D /* ImagesViewController.swift */,
 				301DFB5F279C2E1D0016E2ED /* TabBarController.swift */,
 				301DFB61279C2E540016E2ED /* SettingsViewController.swift */,
@@ -229,6 +232,7 @@
 				301DFB62279C2E540016E2ED /* SettingsViewController.swift in Sources */,
 				301DFB66279C8A3A0016E2ED /* ChangePasswordViewController.swift in Sources */,
 				301DFB5C27984A8D0016E2ED /* AuthorizationViewController.swift in Sources */,
+				3077E0B027A0931A00181DAD /* Constants.swift in Sources */,
 				301DFB64279C774D0016E2ED /* ConfirmPasswordViewController.swift in Sources */,
 				3002819C279206FC00EC7A5D /* ImagesViewController.swift in Sources */,
 				30028198279206FC00EC7A5D /* AppDelegate.swift in Sources */,
