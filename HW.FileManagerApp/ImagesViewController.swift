@@ -8,14 +8,24 @@
 import UIKit
 import AVFoundation
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+class ImagesViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     private let reuseID = "cell"
     private let fileManager = FileManager.default
-    private var contentArray: [URL] = []
+    var contentArray: [URL] = []
     private let tableView = UITableView()
     
-    @objc func addImage() {
+    func reload() {
+        tableView.reloadData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("Images saved in total: \(UserDefaults.standard.integer(forKey: "ImageSaving"))")
+        print("Content: \(contentArray), count: \(contentArray.count)")
+
+    }
+    @objc func addTapped() {
         
         let pickerController = UIImagePickerController()
         pickerController.delegate = self
@@ -59,34 +69,20 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate & UINavi
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseID)
         
-        do {
-        let documentsUrl = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-        let content = try fileManager.contentsOfDirectory(at: documentsUrl, includingPropertiesForKeys: nil, options: [])
-            self.contentArray = content
-            print("Images saved in total: \(UserDefaults.standard.integer(forKey: "ImageSaving"))")
-            print("Content: \(content)")
-        } catch {
-            print(error.localizedDescription)
-        }
-        
-        let navBar = UINavigationBar(frame: CGRect(x: 0, y: 40, width: view.frame.size.width, height: 44))
-        view.addSubview(navBar)
-        let navItem = UINavigationItem(title: "Добавить фотографию")
-        navItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: #selector(addImage))
-        
-        navBar.setItems([navItem], animated: false)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
+        navigationItem.title = "Добавить фотографию"
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.topAnchor.constraint(equalTo: navBar.bottomAnchor),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }
 
-extension ViewController: UITableViewDelegate, UITableViewDataSource {
+extension ImagesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         .delete
