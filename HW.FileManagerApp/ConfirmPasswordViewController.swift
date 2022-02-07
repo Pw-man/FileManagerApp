@@ -6,20 +6,17 @@
 //
 
 import UIKit
-import KeychainAccess
-import CryptoKit
 import RealmSwift
 
 class ConfirmPasswordViewController: AuthorizationViewController {
     
-    var unconfirmedPassword: SHA256.Digest?
-    var enteredLogin: String!
+    var unconfirmedPassword: String?
+    var enteredLogin: String?
     
     override func userLogin() {
         guard let confirmedPass = logInView.passwordTextField.text else { return }
-        let inputData = Data(confirmedPass.utf8)
-        let hashed = SHA256.hash(data: inputData)
-        guard unconfirmedPassword == hashed else {
+        guard let enteredLogin = enteredLogin else { return }
+        guard unconfirmedPassword == confirmedPass else {
             let alertController = UIAlertController(title: "Пароли не совпадают", message: nil, preferredStyle: .alert)
             let action = UIAlertAction(title: "Изменить", style: .default)
             alertController.addAction(action)
@@ -41,7 +38,7 @@ class ConfirmPasswordViewController: AuthorizationViewController {
             print(error.localizedDescription)
         }
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         NSLayoutConstraint.deactivate([
@@ -62,5 +59,4 @@ class ConfirmPasswordViewController: AuthorizationViewController {
         view.backgroundColor = .white
         logInButton.setTitle("Повторите пароль", for: .normal)
     }
-    
 }

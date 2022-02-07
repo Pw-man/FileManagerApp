@@ -17,10 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UserDefaults.standard.set(true, forKey: "sortingFlag")
         
-        var alreadyLaunched: Bool!
-        alreadyLaunched = UserDefaults.standard.bool(forKey: "alreadyLaunched")
-    
-        
+        var alreadyLaunched: Bool = UserDefaults.standard.bool(forKey: "alreadyLaunched")
+            
         if alreadyLaunched {
             alreadyLaunched = true
         } else {

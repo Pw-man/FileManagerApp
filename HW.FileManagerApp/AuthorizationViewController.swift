@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import CryptoKit
 import RealmSwift
 
 class AuthorizationViewController: UIViewController, UITextFieldDelegate {
@@ -51,10 +50,8 @@ class AuthorizationViewController: UIViewController, UITextFieldDelegate {
             alertController.addAction(action)
             self.present(alertController, animated: true, completion: nil)
         } else {
-            let inputData = Data(password.utf8)
-            let hashed = SHA256.hash(data: inputData)
             let confirmPassVC = ConfirmPasswordViewController()
-            confirmPassVC.unconfirmedPassword = hashed
+            confirmPassVC.unconfirmedPassword = password
             confirmPassVC.enteredLogin = login
             self.navigationController?.pushViewController(confirmPassVC, animated: true)
             logInView.passwordTextField.text = ""
@@ -96,6 +93,8 @@ class AuthorizationViewController: UIViewController, UITextFieldDelegate {
         
         guard let realm = localRealm else { return }
         let user = realm.objects(UserData.self).first
+
+        print("Objects: \(realm.objects(UserData.self))")
         guard let realmLogin = user?.login, let realmPassword = user?.password else { return }
         
         if realmLogin.isEmpty || realmPassword.isEmpty {

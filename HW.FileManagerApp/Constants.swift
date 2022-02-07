@@ -8,12 +8,13 @@
 import UIKit
 import RealmSwift
 
-let user = UserData()
-
 let localRealm = try? Realm()
+
 
 class UserData: Object {
     
     @Persisted var login: String = ""
     @Persisted var password: String = ""
 }
+
+let user = UserData()
