@@ -7,6 +7,7 @@
 
 import UIKit
 import RealmSwift
+import KeychainAccess
 
 class AuthorizationViewController: UIViewController, UITextFieldDelegate {
     
@@ -22,7 +23,7 @@ class AuthorizationViewController: UIViewController, UITextFieldDelegate {
     }()
     
     @objc func userLogin() {
-        guard let realm = localRealm else { return }
+        let realm = try! Realm(configuration: RealmConfiguration.config)
         guard let password = logInView.passwordTextField.text else { return }
         guard let login = logInView.nameTextField.text else { return }
         let user = realm.objects(UserData.self).first
@@ -90,18 +91,20 @@ class AuthorizationViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         logInView.passwordTextField.delegate = self
-        
-        guard let realm = localRealm else { return }
-        let user = realm.objects(UserData.self).first
-
-        print("Objects: \(realm.objects(UserData.self))")
-        guard let realmLogin = user?.login, let realmPassword = user?.password else { return }
-        
-        if realmLogin.isEmpty || realmPassword.isEmpty {
-        } else {
-            logInButton.setTitle("Введите пароль", for: .normal)
+        do {
+            let realm = try Realm(configuration: RealmConfiguration.config)
+            let user = realm.objects(UserData.self).first
+            
+            print("Objects: \(realm.objects(UserData.self))")
+            guard let realmLogin = user?.login, let realmPassword = user?.password else { return }
+            
+            if realmLogin.isEmpty || realmPassword.isEmpty {
+            } else {
+                logInButton.setTitle("Введите пароль", for: .normal)
+            }
+        } catch {
+            print(error.localizedDescription)
         }
-        
         print(UserDefaults.standard.bool(forKey: "authorized"))
         
         if UserDefaults.standard.bool(forKey: "authorized") {

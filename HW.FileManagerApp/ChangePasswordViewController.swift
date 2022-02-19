@@ -6,9 +6,8 @@
 //
 
 import UIKit
-import KeychainAccess
-import CryptoKit
 import RealmSwift
+import KeychainAccess
 
 class ChangePasswordViewController: AuthorizationViewController {
     
@@ -20,18 +19,22 @@ class ChangePasswordViewController: AuthorizationViewController {
             alertController.addAction(action)
             self.present(alertController, animated: true, completion: nil)
         } else {
-            guard let realm = localRealm else { return }
-            guard let user = realm.objects(UserData.self).first else { return }
             do {
-                try realm.write({
-                    user.password = changedPass
-                })
-                let alertController = UIAlertController(title: "Пароль успешно изменён!", message: nil, preferredStyle: .alert)
-                self.present(alertController, animated: true, completion: nil)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.dismiss(animated: true) {
-                        self.dismiss(animated: true, completion: nil)
+                let realm = try Realm(configuration: RealmConfiguration.config)
+                guard let user = realm.objects(UserData.self).first else { return }
+                do {
+                    try realm.write({
+                        user.password = changedPass
+                    })
+                    let alertController = UIAlertController(title: "Пароль успешно изменён!", message: nil, preferredStyle: .alert)
+                    self.present(alertController, animated: true, completion: nil)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        self.dismiss(animated: true) {
+                            self.dismiss(animated: true, completion: nil)
+                        }
                     }
+                } catch {
+                    print(error.localizedDescription)
                 }
             } catch {
                 print(error.localizedDescription)

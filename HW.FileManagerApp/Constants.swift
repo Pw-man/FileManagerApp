@@ -7,9 +7,13 @@
 
 import UIKit
 import RealmSwift
+import KeychainAccess
 
-let localRealm = try? Realm()
+let keychain = Keychain(service: "com.myApp.token")
 
+struct RealmConfiguration {
+    static let config = Realm.Configuration(encryptionKey: keychain[data: "realmConfigKey"])
+}
 
 class UserData: Object {
     
@@ -18,3 +22,5 @@ class UserData: Object {
 }
 
 let user = UserData()
+
+

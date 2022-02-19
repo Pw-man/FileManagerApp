@@ -7,6 +7,7 @@
 
 import UIKit
 import RealmSwift
+import KeychainAccess
 
 class ConfirmPasswordViewController: AuthorizationViewController {
     
@@ -23,17 +24,21 @@ class ConfirmPasswordViewController: AuthorizationViewController {
             self.present(alertController, animated: true, completion: nil)
             return
         }
-        guard let realm = localRealm else { return }
-        guard let user = realm.objects(UserData.self).first else { return }
         do {
-            try realm.write({
-                user.login = enteredLogin
-                user.password = confirmedPass
-            })
-            let tabBarController = TabBarController()
-            self.navigationController?.pushViewController(tabBarController, animated: true)
-            logInView.passwordTextField.text = ""
-            UserDefaults.standard.set(true, forKey: "authorized")
+            let realm = try Realm(configuration: RealmConfiguration.config)
+            guard let user = realm.objects(UserData.self).first else { return }
+            do {
+                try realm.write({
+                    user.login = enteredLogin
+                    user.password = confirmedPass
+                })
+                let tabBarController = TabBarController()
+                self.navigationController?.pushViewController(tabBarController, animated: true)
+                logInView.passwordTextField.text = ""
+                UserDefaults.standard.set(true, forKey: "authorized")
+            } catch {
+                print(error.localizedDescription)
+            }
         } catch {
             print(error.localizedDescription)
         }
