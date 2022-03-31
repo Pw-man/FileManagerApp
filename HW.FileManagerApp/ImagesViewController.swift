@@ -14,6 +14,8 @@ class ImagesViewController: UIViewController, UIImagePickerControllerDelegate, U
     private let fileManager = FileManager.default
     var contentArray: [URL] = []
     private let tableView = UITableView()
+    var onDidDelete: ((Int) -> ())?
+    var onDidAdd: (([URL]) -> ())?
     
     func reload() {
         tableView.reloadData()
@@ -41,14 +43,16 @@ class ImagesViewController: UIViewController, UIImagePickerControllerDelegate, U
         if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             do {
                 let documentsUrl = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+                let imagesStoreUrl = documentsUrl.appendingPathComponent("Images_store")
                 if let data = editedImage.jpegData(compressionQuality: 1.0) {
-                    let imageStoragePath = documentsUrl.appendingPathComponent("PickedEditedImage\(UserDefaults.standard.integer(forKey:"ImageSaving")).jpg")
+                    let imageStoragePath = imagesStoreUrl.appendingPathComponent("PickedEditedImage\(UserDefaults.standard.integer(forKey:"ImageSaving")).jpg")
                     fileManager.createFile(atPath: imageStoragePath.path , contents: data, attributes: nil)
                     UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "ImageSaving") + 1, forKey: "ImageSaving")
                     print(UserDefaults.standard.integer(forKey: "ImageSaving"))
                     do {
-                        let content = try fileManager.contentsOfDirectory(at: documentsUrl, includingPropertiesForKeys: nil, options: [])
+                        let content = try fileManager.contentsOfDirectory(at: imagesStoreUrl, includingPropertiesForKeys: nil, options: [])
                         self.contentArray = content
+                        onDidAdd?(content)
                     } catch {
                         print(error.localizedDescription)
                     }
@@ -93,6 +97,7 @@ extension ImagesViewController: UITableViewDelegate, UITableViewDataSource {
             do {
                 try fileManager.removeItem(at: contentArray[indexPath.row])
                 self.contentArray.remove(at: indexPath.row)
+                onDidDelete?(indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)
             } catch {
                 print(error.localizedDescription)
