@@ -23,7 +23,7 @@ class AuthorizationViewController: UIViewController, UITextFieldDelegate {
     }()
     
     @objc func userLogin() {
-        let realm = try! Realm(configuration: RealmConfiguration.config)
+        let realm = try! Realm(configuration: Realm.Configuration(encryptionKey: keychain[data: "realmConfigKey"]))
         guard let password = logInView.passwordTextField.text else { return }
         guard let login = logInView.nameTextField.text else { return }
         let user = realm.objects(UserData.self).first
@@ -92,7 +92,7 @@ class AuthorizationViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         logInView.passwordTextField.delegate = self
         do {
-            let realm = try Realm(configuration: RealmConfiguration.config)
+            let realm = try Realm(configuration: Realm.Configuration(encryptionKey: keychain[data: "realmConfigKey"]))
             let user = realm.objects(UserData.self).first
             
             print("Objects: \(realm.objects(UserData.self))")

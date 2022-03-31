@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 _ = key.withUnsafeMutableBytes { (pointer: UnsafeMutableRawBufferPointer) in SecRandomCopyBytes(kSecRandomDefault, 64, pointer.baseAddress!) }
                 keychain[data: "realmConfigKey"] = key
                 
-                let localRealm = try Realm(configuration: RealmConfiguration.config)
+                let localRealm = try Realm(configuration: Realm.Configuration(encryptionKey: keychain[data: "realmConfigKey"]))
                 do {
                     try localRealm.write({
                         localRealm.add(user)

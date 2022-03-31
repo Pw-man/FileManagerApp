@@ -20,7 +20,7 @@ class ChangePasswordViewController: AuthorizationViewController {
             self.present(alertController, animated: true, completion: nil)
         } else {
             do {
-                let realm = try Realm(configuration: RealmConfiguration.config)
+                let realm = try Realm(configuration: Realm.Configuration(encryptionKey: keychain[data: "realmConfigKey"]))
                 guard let user = realm.objects(UserData.self).first else { return }
                 do {
                     try realm.write({
